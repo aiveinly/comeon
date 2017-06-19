@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.suggest.dao.SuggestMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.suggest.domain.Suggest" >
+    <id column="SGID" property="sgid" jdbcType="INTEGER" />
+    <result column="Suggest" property="suggest" jdbcType="VARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UID" property="uid" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SGID, Suggest, UpdateDate, UID, Status ,Name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Suggest
+    where SGID = #{sgid,jdbcType=INTEGER}
+  </select>
+  <select id="listPageSelect" resultMap="BaseResultMap" parameterType="com.planet.suggest.domain.Suggest">
+     SELECT a.SGID,a.Suggest,a.UpdateDate,a.UID,a.`Status`,b.Name
+     FROM Sys_Suggest a left join Sys_User b on a.UID=b.UID
+     WHERE 1=1 AND a.`Status` IN (0,1)
+     ORDER BY a.UpdateDate DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Sys_Suggest
+    where SGID = #{sgid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.suggest.domain.Suggest" >
+    insert into Sys_Suggest (SGID, Suggest, UpdateDate, 
+      UID, Status)
+    values (#{sgid,jdbcType=INTEGER}, #{suggest,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{uid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.suggest.domain.Suggest" >
+    insert into Sys_Suggest
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sgid != null" >
+        SGID,
+      </if>
+      <if test="suggest != null" >
+        Suggest,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sgid != null" >
+        #{sgid,jdbcType=INTEGER},
+      </if>
+      <if test="suggest != null" >
+        #{suggest,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.suggest.domain.Suggest" >
+    update Sys_Suggest
+    <set >
+      <if test="suggest != null" >
+        Suggest = #{suggest,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where SGID = #{sgid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.suggest.domain.Suggest" >
+    update Sys_Suggest
+    set Suggest = #{suggest,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UID = #{uid,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER}
+    where SGID = #{sgid,jdbcType=INTEGER}
+  </update>
+</mapper>

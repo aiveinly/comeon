@@ -1,0 +1,31 @@
+<ion-view view-title="修改密码" cache-view="false" hide-tab="true" id="register">
+    <ion-content>
+        <form name="revisePwdForm" novalidate>
+            <fieldset>
+                <legend class="text-center">修改密码</legend>
+                <div class="inputGroup">
+                    <label class="item item-input first-input-item">
+                        <span class="input-label">旧密码:</span>
+                        <input type="text" ng-model="user.oldPwd" name="oldPwd" placeholder="请输入旧密码"
+                               required/>
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">新密码:</span>
+                        <input type="password" ng-model="user.pwd" required placeholder="请输入密码"/>
+                    </label>
+                    <label class="item item-input  last-input-item">
+                        <span class="input-label">确认密码:</span>
+                        <input type="password" ng-model="user.qPwd" required
+                               ng-blur="pwdConsistencyCheck()"
+                               placeholder="请确认密码"/>
+                    </label>
+                </div>
+                <button class="button button-full button-balanced create-btn"
+                        ng-disabled="!pwdConsistencyCheck()||revisePwdForm.$invalid"
+                        ng-click="resetPwd()">
+                    确定修改
+                </button>
+            </fieldset>
+        </form>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,9 @@
+<ion-view id="p-brand-pre">
+    <ion-content>
+        <h1>请选择产品前缀</h1>
+        <button class="button button-balanced button-small btn-brand-pre"
+                ng-repeat="item in brandPreList" ng-click="goBrand(item)">
+            {{item.pre}}
+        </button>
+    </ion-content>
+</ion-view>

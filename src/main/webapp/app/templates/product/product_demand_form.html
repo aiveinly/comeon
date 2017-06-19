@@ -1,0 +1,103 @@
+<ion-view id="form-demand">
+    <ion-content>
+        <form name="demandForm" novalidate="novalidate">
+            <fieldset>
+                <!--<h1>产品需求</h1>-->
+
+                <label class="item item-input" ng-if="!tag.isFast">
+                    <span class="input-label">产品名称:</span>
+                    <input type="text" ng-model="productDemand.productname"
+                           placeholder="请输入产品名称或直接上传附件" ng-disabled="tag.isSale"/>
+
+                </label>
+                <!--<label class="item item-input">-->
+                <!--<span class="input-label">产品类型:</span>-->
+                <!--&lt;!&ndash;<span class="pType" ng-bind="productDemand.ptype|pTypeFilter"></span>&ndash;&gt;-->
+                <!--<input type="text" ng-model="productDemand.ptype" placeholder="请输入产品品类" required/>-->
+                <!--</label>-->
+                <label class="item item-input"
+                       ng-if="!tag.isFast">
+                    <span class="input-label">产品品类:</span>
+                    <input type="text" ng-model="productDemand.sortname" ng-disabled="tag.isSale" placeholder="请输入产品品类"
+                           required/>
+                </label>
+                <label class="item item-input" ng-if="!tag.isFast">
+                    <span class="input-label">产品品牌:</span>
+                    <input type="text" ng-if="!tag.isFast" ng-model="productDemand.brandname" ng-disabled="tag.isSale"
+                           placeholder="请输入产品品牌或直接上传附件" required/>
+                    <input type="text" ng-if="tag.isFast" ng-model="productDemand.brandname" placeholder="请输入产品品牌"/>
+                </label>
+                <label class="item item-input item_input_list" ng-if="!tag.isFast">
+                    <span class="input-label">产品系列:</span>
+                    <input type="text" ng-model="productDemand.seriesname" ng-disabled="tag.isSale"
+                           placeholder="请输入产品系列或直接上传附件"/>
+                </label>
+                <div class="item item-input item_input_div" ng-if="!tag.isFast">
+                    <span class="input-label">产品数量:</span>
+                    <div class="input-groups">
+                        <span ng-click="minus()" class="span">-</span>
+                        <!--<span class="qty">{{productDemand.qty}}</span>-->
+                        <input type="number" ng-keyup="qtyKeyUp()" ng-class="{'invalid':isQtyInvalid}"
+                               ng-model="productDemand.qty" min="1"/>
+                        <span ng-click="add()" class="span">+</span>
+                    </div>
+                    <span class="stock" ng-if="product.ptype==1">库存数量:{{product.stock}}</span>
+                </div>
+                <label class="item item-input" ng-class="{'bb0':tag.isFast}"
+                       ng-if="!tag.isFast&&productDemand.ptype!=1">
+                    <span class="input-label">产品型号:</span>
+                    <input type="text" ng-model="productDemand.modelname" maxlength="50" placeholder="请输入产品型号或直接上传附件"/>
+                </label>
+                <!--<label class="item item-input" ng-if="isSale">-->
+                <!--<span class="input-label">产品价格:</span>-->
+                <!--<input type="number" ng-model="productDemand.price" placeholder="请输入产品价格" required/>-->
+                <!--</label>-->
+
+                <!--<label class="item item-input">
+
+                    <span class="input-groups">
+
+                    </span>
+                </label>-->
+                <label class="item item_textarea" ng-if="!tag.isFast">
+                    <span class="input-label label_remark">备<span class="remark">注:</span></span>
+                    <textarea ng-model="productDemand.remark" placeholder="请输入产品备注或直接上传附件" ng-maxlength="200">
+
+                    </textarea>
+                </label>
+
+                <div class="preview-img-warp" ng-if="extraFiles.length>0">
+                    <h2>附件:</h2><a ng-click="clearFiles()">取消</a>
+                    <div class="p11">
+                        <div class="p10" ng-repeat="item in extraFiles">
+                            <!--<div ng-if="isImage(item)">-->
+                            <!--<h3>附件{{$index+1}}</h3>-->
+                            <!--<img ngf-src="item" ngf-select=""-->
+                            <!--ng-model="vm.img" ng-change="changeFile($index)">-->
+                            <!--</div>-->
+                            <!--<div ng-if="!isImage(item)">-->
+                            <div class="padding-horizontal">
+                                <h3>附件{{$index+1}}<img class="extra-file" ng-src="img/extra-file.svg"></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demand_button">
+                    <button class="button button-positive button-block btn-extra-file"
+                            ng-if="isShowUploadBtn()" ngf-select="" ng-model="vm.file">
+                        上传附件
+                    </button>
+                    <button ng-if="!tag.isFast"
+                            class="button button-positive button-block btn-commit" ng-disabled="demandForm.$invalid"
+                            ng-click="commit()">提交
+                    </button>
+                    <button ng-if="tag.isFast"
+                            class="button button-positive button-block btn-commit"
+                            ng-disabled="extraFiles.length<1&&formDisabled"
+                            ng-click="commit()">提交
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </ion-content>
+</ion-view>

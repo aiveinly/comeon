@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.reqrequirement.dao.ReqRequirementMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.reqrequirement.domain.ReqRequirement" >
+    <id column="RID" property="rid" jdbcType="VARCHAR" />
+    <result column="PSID" property="psid" jdbcType="VARCHAR" />
+    <result column="UID" property="uid" jdbcType="INTEGER" />
+    <result column="PType" property="ptype" jdbcType="INTEGER" />
+    <result column="ProductName" property="productname" jdbcType="VARCHAR" />
+    <result column="SortName" property="sortname" jdbcType="VARCHAR" />
+    <result column="BrandName" property="brandname" jdbcType="VARCHAR" />
+    <result column="ModelName" property="modelname" jdbcType="VARCHAR" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="Qty" property="qty" jdbcType="INTEGER" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdateID" property="updateid" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="SeriesName" property="seriesname" jdbcType="VARCHAR" />
+    <result column="FileID" property="fileid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RID, PSID, UID, PType, ProductName, SortName, BrandName, ModelName, Price, Qty, Remark, 
+    CreateDate, UpdateDate, UpdateID, Status, SeriesName, FileID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Req_Requirement
+    where RID = #{rid,jdbcType=VARCHAR}
+  </select>
+  <select id="listPagereqRequirements" resultMap="BaseResultMap" parameterType="com.planet.reqrequirement.domain.ReqRequirement" >
+    select
+    <include refid="Base_Column_List" />
+    from Req_Requirement
+    where 1=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Req_Requirement
+    where RID = #{rid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.planet.reqrequirement.domain.ReqRequirement" >
+    insert into Req_Requirement (RID, PSID, UID, 
+      PType, ProductName, SortName, 
+      BrandName, ModelName, Price, 
+      Qty, Remark, CreateDate, 
+      UpdateDate, UpdateID, Status, 
+      SeriesName, FileID)
+    values (#{rid,jdbcType=VARCHAR}, #{psid,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
+      #{ptype,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR}, #{sortname,jdbcType=VARCHAR}, 
+      #{brandname,jdbcType=VARCHAR}, #{modelname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{qty,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{updateid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{seriesname,jdbcType=VARCHAR}, #{fileid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.reqrequirement.domain.ReqRequirement" >
+    insert into Req_Requirement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        RID,
+      </if>
+      <if test="psid != null" >
+        PSID,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="ptype != null" >
+        PType,
+      </if>
+      <if test="productname != null" >
+        ProductName,
+      </if>
+      <if test="sortname != null" >
+        SortName,
+      </if>
+      <if test="brandname != null" >
+        BrandName,
+      </if>
+      <if test="modelname != null" >
+        ModelName,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="qty != null" >
+        Qty,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateid != null" >
+        UpdateID,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="seriesname != null" >
+        SeriesName,
+      </if>
+      <if test="fileid != null" >
+        FileID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="psid != null" >
+        #{psid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="ptype != null" >
+        #{ptype,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="sortname != null" >
+        #{sortname,jdbcType=VARCHAR},
+      </if>
+      <if test="brandname != null" >
+        #{brandname,jdbcType=VARCHAR},
+      </if>
+      <if test="modelname != null" >
+        #{modelname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateid != null" >
+        #{updateid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="seriesname != null" >
+        #{seriesname,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null" >
+        #{fileid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.reqrequirement.domain.ReqRequirement" >
+    update Req_Requirement
+    <set >
+      <if test="psid != null" >
+        PSID = #{psid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="ptype != null" >
+        PType = #{ptype,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        ProductName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="sortname != null" >
+        SortName = #{sortname,jdbcType=VARCHAR},
+      </if>
+      <if test="brandname != null" >
+        BrandName = #{brandname,jdbcType=VARCHAR},
+      </if>
+      <if test="modelname != null" >
+        ModelName = #{modelname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        Qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateid != null" >
+        UpdateID = #{updateid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="seriesname != null" >
+        SeriesName = #{seriesname,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null" >
+        FileID = #{fileid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where RID = #{rid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.reqrequirement.domain.ReqRequirement" >
+    update Req_Requirement
+    set PSID = #{psid,jdbcType=VARCHAR},
+      UID = #{uid,jdbcType=INTEGER},
+      PType = #{ptype,jdbcType=INTEGER},
+      ProductName = #{productname,jdbcType=VARCHAR},
+      SortName = #{sortname,jdbcType=VARCHAR},
+      BrandName = #{brandname,jdbcType=VARCHAR},
+      ModelName = #{modelname,jdbcType=VARCHAR},
+      Price = #{price,jdbcType=DECIMAL},
+      Qty = #{qty,jdbcType=INTEGER},
+      Remark = #{remark,jdbcType=VARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdateID = #{updateid,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      SeriesName = #{seriesname,jdbcType=VARCHAR},
+      FileID = #{fileid,jdbcType=INTEGER}
+    where RID = #{rid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,45 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.planet-menu{
+    overflow: hidden;
+    padding: 10px;
+}
+a.planet-menu-item{
+    display: block;
+    width: 100%;
+    color: blue;
+    padding: 10px 30px;
+    margin-left: -10px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 微软雅黑;
+    border-bottom: 1px solid grey;
+}
+a.planet-menu-item:hover{
+    background-color: #3C8CE6 !important;
+    color: #fff!important;
+}
+a.planet-menu-item:active{
+    background-color: #3379e6 !important;
+    color: #fff!important;
+}
+a.planet-menu-item.active{
+    background-color: #3C8CE6 !important;;
+    color: #fff!important;
+}
+a.planet-menu-item:visited{
+    color: blue;
+}
+a.planet-menu-item:nth-child(1){
+    margin-top: -10px;
+}
+a.planet-menu-item:nth-child(2n){
+    background-color: #f1f5f9;
+}
+a.planet-menu-item img:first-child{
+    vertical-align: -2px;
+    margin-right: 3px;
+}

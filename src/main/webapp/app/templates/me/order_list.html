@@ -1,0 +1,21 @@
+<ion-view view-title="我的订单" id="order-list">
+    <ion-content>
+        <ul class="o-list" ng-if="hasOrder">
+            <!--<li class="o-item title">-->
+                <!--<div class="o-num">订单号</div>-->
+                <!--<div class="o-time">提交时间</div>-->
+                <!--<div class="o-status">订单状态</div>-->
+            <!--</li>-->
+            <li class="o-item" ng-repeat="order in orderList" ng-click="goDetail(order.oid)">
+                <div class="o-num">订单号：{{order.oid}}</div>
+                <div class="o-time">{{order.createdateString}}<br/>{{order.status|orderStatusFilter}}</div>
+                <!--<div class="o-status">{{order.status|orderStatusFilter}}</div>-->
+            </li>
+        </ul>
+        <!-- 上拉加载更多 -->
+        <ion-infinite-scroll immediate-check="false" ng-if="isLoadMore" distance="5%" on-infinite="loadMore()"></ion-infinite-scroll>
+        <div ng-if="!hasOrder" class="tips">
+            暂无订单，您可以先去下单！
+        </div>
+    </ion-content>
+</ion-view>

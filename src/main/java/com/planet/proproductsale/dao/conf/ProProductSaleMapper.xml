@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.proproductsale.dao.ProProductSaleMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.proproductsale.domain.ProProductSale" >
+    <id column="PSID" property="psid" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="Stock" property="stock" jdbcType="INTEGER" />
+    <result column="PType" property="ptype" jdbcType="INTEGER" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="SaleDate" property="saledate" jdbcType="DATE" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="Stay1" property="stay1" jdbcType="VARCHAR" />
+    <result column="Stay2" property="stay2" jdbcType="VARCHAR" />
+    <result column="Sn" property="sn" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="ProductSaleInfoMap" type="com.planet.vo.ProductSaleInfoVo">
+    <id column="PSID" property="psid" jdbcType="VARCHAR"/>
+    <result column="PID" property="pid" jdbcType="VARCHAR"/>
+    <result column="Stock" property="stock" jdbcType="INTEGER" />
+    <result column="ProductName" property="productname" jdbcType="VARCHAR" />
+    <result column="SortID" property="sortid" jdbcType="INTEGER" />
+    <result column="SortName" property="sortname" jdbcType="VARCHAR"/>
+    <result column="BrandID" property="brandid" jdbcType="INTEGER" />
+    <result column="BrandName" property="brandname" jdbcType="VARCHAR"/>
+    <result column="SeriesID" property="seriesid" jdbcType="INTEGER" />
+    <result column="SeriesName" property="seriesname" jdbcType="VARCHAR"/>
+    <result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+    <result column="ModelName" property="modelname" jdbcType="VARCHAR" />
+    <result column="DescribeModel" property="describemodel" jdbcType="VARCHAR" />
+    <result column="PType" property="ptype" jdbcType="INTEGER" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="SaleDate" property="saledate" jdbcType="DATE" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="Sn" property="sn" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PSID, PID, Stock, PType, Price, Remark, SaleDate, Status, Stay1, Stay2, Sn
+  </sql>
+  <sql id="Base_Column_list_Product_Sale">
+    PSID,PID,Stock,ProductName,SortID,SortName,BrandID,BrandName,SeriesID,SeriesName,
+    ImgUrl,ModelName,DescribeModel,PType,Price,Remark,SaleDate,Status,Sn
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Pro_ProductSale
+    where PSID = #{psid,jdbcType=VARCHAR} order by sn ASC
+  </select>
+  <select id="listPageSelectProduct" resultMap="ProductSaleInfoMap" parameterType="com.planet.vo.ProductSaleInfoVo">
+    select
+    <include refid="Base_Column_list_Product_Sale"/>
+    FROM V_Pro_ProductSaleInfo WHERE 1=1
+    <if test="psid !=null">
+      AND PSID LIKE CONCAT(CONCAT('%',#{psid, jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="pid !=null">
+      AND PID LIKE CONCAT(CONCAT('%',#{pid, jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="productname !=null">
+      AND ProductName LIKE CONCAT(CONCAT('%',#{productname, jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="sortname !=null">
+      AND SortName LIKE CONCAT(CONCAT('%',#{sortname, jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="brandname !=null">
+      And BrandName LIKE CONCAT(CONCAT('%',#{brandname, jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="seriesname !=null">
+      And SeriesName LIKE CONCAT(CONCAT('%',#{seriesname, jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="modelname !=null">
+      And SeriesName LIKE CONCAT(CONCAT('%',#{modelname, jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="ptype !=null">
+      And PType LIKE CONCAT(CONCAT('%',#{ptype, jdbcType=INTEGER}),'%')
+    </if>
+    <if test="sortid !=null">
+      AND SortID LIKE CONCAT(CONCAT('%',#{sortid, jdbcType=INTEGER}),'%')
+    </if>
+    <if test="seriesid !=null">
+      AND SeriesID LIKE CONCAT(CONCAT('%',#{seriesid, jdbcType=INTEGER}),'%')
+    </if>
+    <if test="brandid !=null">
+      AND BrandID LIKE CONCAT(CONCAT('%',#{brandid, jdbcType=INTEGER}),'%')
+    </if>
+    order by Sn ASC ,SaleDate desc
+  </select>
+  <select id="selectByPid" resultType="Integer" parameterType="com.planet.proproductsale.domain.ProProductSale">
+    select count(*) from Pro_ProductSale a where 1=1
+    <if test="pid !=null">
+      AND a.PID = #{pid,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Pro_ProductSale
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.planet.proproductsale.domain.ProProductSale" >
+    insert into Pro_ProductSale (PSID, PID, Stock, 
+      PType, Price, Remark, 
+      SaleDate, Status, Stay1, 
+      Stay2, Sn)
+    values (#{psid,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, 
+      #{ptype,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{saledate,jdbcType=DATE}, #{status,jdbcType=INTEGER}, #{stay1,jdbcType=VARCHAR}, 
+      #{stay2,jdbcType=VARCHAR}, #{sn,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.proproductsale.domain.ProProductSale" >
+    insert into Pro_ProductSale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="psid != null" >
+        PSID,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="stock != null" >
+        Stock,
+      </if>
+      <if test="ptype != null" >
+        PType,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="saledate != null" >
+        SaleDate,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="stay1 != null" >
+        Stay1,
+      </if>
+      <if test="stay2 != null" >
+        Stay2,
+      </if>
+      <if test="sn != null" >
+        Sn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="psid != null" >
+        #{psid,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="ptype != null" >
+        #{ptype,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="saledate != null" >
+        #{saledate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stay1 != null" >
+        #{stay1,jdbcType=VARCHAR},
+      </if>
+      <if test="stay2 != null" >
+        #{stay2,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.proproductsale.domain.ProProductSale" >
+    update Pro_ProductSale
+    <set >
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        Stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="ptype != null" >
+        PType = #{ptype,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="saledate != null" >
+        SaleDate = #{saledate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stay1 != null" >
+        Stay1 = #{stay1,jdbcType=VARCHAR},
+      </if>
+      <if test="stay2 != null" >
+        Stay2 = #{stay2,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null" >
+        Sn = #{sn,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.proproductsale.domain.ProProductSale" >
+    update Pro_ProductSale
+    set PID = #{pid,jdbcType=VARCHAR},
+      Stock = #{stock,jdbcType=INTEGER},
+      PType = #{ptype,jdbcType=INTEGER},
+      Price = #{price,jdbcType=DECIMAL},
+      Remark = #{remark,jdbcType=VARCHAR},
+      SaleDate = #{saledate,jdbcType=DATE},
+      Status = #{status,jdbcType=INTEGER},
+      Stay1 = #{stay1,jdbcType=VARCHAR},
+      Stay2 = #{stay2,jdbcType=VARCHAR},
+      Sn = #{sn,jdbcType=INTEGER}
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </update>
+</mapper>

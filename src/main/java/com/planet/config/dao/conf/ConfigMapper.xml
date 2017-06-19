@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.config.dao.ConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.config.domain.Config" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="AboutUs" property="aboutus" jdbcType="VARCHAR" />
+    <result column="Term" property="term" jdbcType="VARCHAR" />
+    <result column="Bank" property="bank" jdbcType="VARCHAR" />
+    <result column="Account" property="account" jdbcType="VARCHAR" />
+    <result column="Tax" property="tax" jdbcType="VARCHAR" />
+    <result column="FileSize" property="filesize" jdbcType="INTEGER" />
+    <result column="Tel" property="tel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, AboutUs, Term, Bank, Account, Tax, FileSize,Tel
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Config
+    where 1=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Sys_Config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.config.domain.Config" >
+    insert into Sys_Config (id, AboutUs, Term, 
+      Bank, Account, Tax, 
+      FileSize,Tel)
+    values (#{id,jdbcType=INTEGER}, #{aboutus,jdbcType=VARCHAR}, #{term,jdbcType=VARCHAR}, 
+      #{bank,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{tax,jdbcType=VARCHAR}, 
+      #{filesize,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR},)
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.config.domain.Config" >
+    insert into Sys_Config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="aboutus != null" >
+        AboutUs,
+      </if>
+      <if test="term != null" >
+        Term,
+      </if>
+      <if test="bank != null" >
+        Bank,
+      </if>
+      <if test="account != null" >
+        Account,
+      </if>
+      <if test="tax != null" >
+        Tax,
+      </if>
+      <if test="filesize != null" >
+        FileSize,
+      </if>
+      <if test="tel != null" >
+        Tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="aboutus != null" >
+        #{aboutus,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        #{tax,jdbcType=VARCHAR},
+      </if>
+      <if test="filesize != null" >
+        #{filesize,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.config.domain.Config" >
+    update Sys_Config
+    <set >
+      <if test="aboutus != null" >
+        AboutUs = #{aboutus,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        Term = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        Bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        Account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        Tax = #{tax,jdbcType=VARCHAR},
+      </if>
+      <if test="filesize != null" >
+        FileSize = #{filesize,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        Tel=#{tel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.config.domain.Config" >
+    update Sys_Config
+    set AboutUs = #{aboutus,jdbcType=VARCHAR},
+      Term = #{term,jdbcType=VARCHAR},
+      Bank = #{bank,jdbcType=VARCHAR},
+      Account = #{account,jdbcType=VARCHAR},
+      Tax = #{tax,jdbcType=VARCHAR},
+      FileSize = #{filesize,jdbcType=INTEGER},
+      Tel = #{tel,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,19 @@
+<ion-view view-title="消息中心" id="message">
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="item in messageList" ng-click="readMessage(item)">
+                <div class="item-head">
+                    <span class="title">
+                        <!--<i class="ion-android-mail" ng-if="item.isread==0"></i>-->
+                        <!--<i class="ion-android-drafts" ng-if="item.isread==1"></i>-->
+                        <i class="ion-record"></i>
+                        <span ng-if="item.mtype==1">系统消息</span>
+                        <span ng-if="item.mtype==0">订单消息</span>
+                    </span>
+                    <span class="time">{{item.senddate|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                </div>
+                <p class="content">{{item.message}} 感谢您对我们信任与支持！感谢您对我们的信任与支持！感谢您对我们的信任与支持！</p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

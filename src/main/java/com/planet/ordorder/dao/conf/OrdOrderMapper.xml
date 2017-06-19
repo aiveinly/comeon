@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.ordorder.dao.OrdOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.ordorder.domain.OrdOrder" >
+    <id column="OID" property="oid" jdbcType="VARCHAR" />
+    <result column="POID" property="poid" jdbcType="VARCHAR" />
+    <result column="QID" property="qid" jdbcType="VARCHAR" />
+    <result column="RID" property="rid" jdbcType="VARCHAR" />
+    <result column="UID" property="uid" jdbcType="VARCHAR" />
+    <result column="SUID" property="suid" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdateID" property="updateid" jdbcType="INTEGER" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="stay1" property="stay1" jdbcType="VARCHAR" />
+    <result column="stay2" property="stay2" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="OrdOrder" type="com.planet.vo.OrdOrderVo">
+    <id column="OID" property="oid" jdbcType="VARCHAR" />
+    <result column="RID" property="rid" jdbcType="VARCHAR" />
+    <result column="UserName" property="username" jdbcType="VARCHAR"/>
+    <result column="Name" property="name" jdbcType="VARCHAR"/>
+    <result column="VIP" property="vip" jdbcType="INTEGER"/>
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="opcount" property="opCount" jdbcType="VARCHAR"/>
+    <result column="quocount" property="quoCount" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OID,RID, POID, QID, RID, UID, SUID, Remark, UpdateDate, UpdateID, CreateDate, Status,
+    stay1, stay2
+  </sql>
+  
+  <sql id="Ord_Order_Vo">
+    OID,UserName,Name,VIP,Status,CreateDate,opcount,quocount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Ord_Order
+    where OID = #{oid,jdbcType=VARCHAR}
+  </select>
+  <select id="listPageSelectOrder" resultMap="OrdOrder" parameterType="com.planet.vo.OrdOrderVo">
+    select  a.OID,a.RID,b.UserName,b.Name,b.VIP,a.`Status`,a.CreateDate,c.PType,
+    (select count(*) from Ord_PreOrder aa where aa.OID=a.OID ) as opcount ,
+    (select count(*) from Quo_Quotation bb where bb.OID=a.OID ) as quocount
+    from Ord_Order  a
+    LEFT JOIN Sys_User b ON a.UID=b.UID
+    LEFT JOIN req_requirement c on a.rid=c.rid
+    where  1=1
+
+    <if test="username != null" >
+      AND UserName LIKE CONCAT(CONCAT('%',#{username,jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="name != null" >
+      AND Name LIKE CONCAT(CONCAT('%',#{name,jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="oid != null">
+      AND OID LIKE CONCAT(CONCAT('%',#{oid,jdbcType=VARCHAR}),'%')
+    </if>
+    <if test="status != null">
+      AND a.`Status` LIKE CONCAT(CONCAT('%',#{status,jdbcType=INTEGER}),'%')
+    </if>
+    <if test="suid != null">
+      AND (a.SUID is null or a.SUID = #{suid})
+    </if>
+    order by a.CreateDate Desc
+  </select>
+
+  <select id="selectAllOrder" resultMap="OrdOrder" parameterType="com.planet.vo.OrdOrderVo">
+    select  a.OID,a.RID,b.UserName,b.Name,b.VIP,a.`Status`,a.CreateDate,c.PType,
+    (select count(*) from Ord_PreOrder aa where aa.OID=a.OID ) as opcount ,
+    (select count(*) from Quo_Quotation bb where bb.OID=a.OID ) as quocount
+    from Ord_Order  a
+    LEFT JOIN Sys_User b ON a.UID=b.UID
+    LEFT JOIN req_requirement c on a.rid=c.rid
+    order by a.CreateDate Desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Ord_Order
+    where OID = #{oid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.planet.ordorder.domain.OrdOrder" >
+    insert into Ord_Order (OID, POID, QID, 
+      RID, UID, SUID, Remark, 
+      UpdateDate, UpdateID, CreateDate, 
+      Status, stay1, stay2
+      )
+    values (#{oid,jdbcType=VARCHAR}, #{poid,jdbcType=VARCHAR}, #{qid,jdbcType=VARCHAR}, 
+      #{rid,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{suid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{updateid,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{stay1,jdbcType=VARCHAR}, #{stay2,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.ordorder.domain.OrdOrder" >
+    insert into Ord_Order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        OID,
+      </if>
+      <if test="poid != null" >
+        POID,
+      </if>
+      <if test="qid != null" >
+        QID,
+      </if>
+      <if test="rid != null" >
+        RID,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="suid != null" >
+        SUID,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateid != null" >
+        UpdateID,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="stay1 != null" >
+        stay1,
+      </if>
+      <if test="stay2 != null" >
+        stay2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="poid != null" >
+        #{poid,jdbcType=VARCHAR},
+      </if>
+      <if test="qid != null" >
+        #{qid,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="suid != null" >
+        #{suid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateid != null" >
+        #{updateid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stay1 != null" >
+        #{stay1,jdbcType=VARCHAR},
+      </if>
+      <if test="stay2 != null" >
+        #{stay2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.ordorder.domain.OrdOrder" >
+    update Ord_Order
+    <set >
+      <if test="poid != null" >
+        POID = #{poid,jdbcType=VARCHAR},
+      </if>
+      <if test="qid != null" >
+        QID = #{qid,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        RID = #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="suid != null" >
+        SUID = #{suid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateid != null" >
+        UpdateID = #{updateid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stay1 != null" >
+        stay1 = #{stay1,jdbcType=VARCHAR},
+      </if>
+      <if test="stay2 != null" >
+        stay2 = #{stay2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where OID = #{oid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.ordorder.domain.OrdOrder" >
+    update Ord_Order
+    set POID = #{poid,jdbcType=VARCHAR},
+      QID = #{qid,jdbcType=VARCHAR},
+      RID = #{rid,jdbcType=VARCHAR},
+      UID = #{uid,jdbcType=VARCHAR},
+      SUID = #{suid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdateID = #{updateid,jdbcType=INTEGER},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      Status = #{status,jdbcType=INTEGER},
+      stay1 = #{stay1,jdbcType=VARCHAR},
+      stay2 = #{stay2,jdbcType=VARCHAR}
+    where OID = #{oid,jdbcType=VARCHAR}
+  </update>
+</mapper>

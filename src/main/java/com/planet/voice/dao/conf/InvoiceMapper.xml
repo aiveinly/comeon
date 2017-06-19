@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.voice.dao.InvoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.voice.domain.Invoice" >
+    <id column="IID" property="iid" jdbcType="INTEGER" />
+    <result column="CustName" property="custname" jdbcType="VARCHAR" />
+    <result column="TitleName" property="titlename" jdbcType="VARCHAR" />
+    <result column="Bank" property="bank" jdbcType="VARCHAR" />
+    <result column="Account" property="account" jdbcType="VARCHAR" />
+    <result column="Tax" property="tax" jdbcType="VARCHAR" />
+    <result column="CompanyTel" property="companytel" jdbcType="VARCHAR" />
+    <result column="Receiver" property="receiver" jdbcType="VARCHAR" />
+    <result column="ReceiverTel" property="receivertel" jdbcType="VARCHAR" />
+    <result column="Address" property="address" jdbcType="VARCHAR" />
+    <result column="UID" property="uid" jdbcType="INTEGER" />
+    <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    IID, CustName, TitleName, Bank, Account, Tax, CompanyTel, Receiver, ReceiverTel, 
+    Address, UID, isDefault
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Invoice
+    where IID = #{iid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Sys_Invoice
+    where IID = #{iid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.voice.domain.Invoice" >
+    insert into Sys_Invoice (IID, CustName, TitleName, 
+      Bank, Account, Tax, 
+      CompanyTel, Receiver, ReceiverTel, 
+      Address, UID, isDefault
+      )
+    values (#{iid,jdbcType=INTEGER}, #{custname,jdbcType=VARCHAR}, #{titlename,jdbcType=VARCHAR}, 
+      #{bank,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{tax,jdbcType=VARCHAR}, 
+      #{companytel,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, #{receivertel,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{isdefault,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.voice.domain.Invoice" >
+    insert into Sys_Invoice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iid != null" >
+        IID,
+      </if>
+      <if test="custname != null" >
+        CustName,
+      </if>
+      <if test="titlename != null" >
+        TitleName,
+      </if>
+      <if test="bank != null" >
+        Bank,
+      </if>
+      <if test="account != null" >
+        Account,
+      </if>
+      <if test="tax != null" >
+        Tax,
+      </if>
+      <if test="companytel != null" >
+        CompanyTel,
+      </if>
+      <if test="receiver != null" >
+        Receiver,
+      </if>
+      <if test="receivertel != null" >
+        ReceiverTel,
+      </if>
+      <if test="address != null" >
+        Address,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="isdefault != null" >
+        isDefault,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iid != null" >
+        #{iid,jdbcType=INTEGER},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="titlename != null" >
+        #{titlename,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        #{tax,jdbcType=VARCHAR},
+      </if>
+      <if test="companytel != null" >
+        #{companytel,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receivertel != null" >
+        #{receivertel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="isdefault != null" >
+        #{isdefault,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.voice.domain.Invoice" >
+    update Sys_Invoice
+    <set >
+      <if test="custname != null" >
+        CustName = #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="titlename != null" >
+        TitleName = #{titlename,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        Bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        Account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        Tax = #{tax,jdbcType=VARCHAR},
+      </if>
+      <if test="companytel != null" >
+        CompanyTel = #{companytel,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        Receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receivertel != null" >
+        ReceiverTel = #{receivertel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="isdefault != null" >
+        isDefault = #{isdefault,jdbcType=INTEGER},
+      </if>
+    </set>
+    where IID = #{iid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.voice.domain.Invoice" >
+    update Sys_Invoice
+    set CustName = #{custname,jdbcType=VARCHAR},
+      TitleName = #{titlename,jdbcType=VARCHAR},
+      Bank = #{bank,jdbcType=VARCHAR},
+      Account = #{account,jdbcType=VARCHAR},
+      Tax = #{tax,jdbcType=VARCHAR},
+      CompanyTel = #{companytel,jdbcType=VARCHAR},
+      Receiver = #{receiver,jdbcType=VARCHAR},
+      ReceiverTel = #{receivertel,jdbcType=VARCHAR},
+      Address = #{address,jdbcType=VARCHAR},
+      UID = #{uid,jdbcType=INTEGER},
+      isDefault = #{isdefault,jdbcType=INTEGER}
+    where IID = #{iid,jdbcType=INTEGER}
+  </update>
+</mapper>

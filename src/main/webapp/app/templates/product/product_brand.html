@@ -1,0 +1,42 @@
+<ion-view id="p-brand">
+    <ion-content>
+        <header class="clearfix"  ng-switch="vm.status">
+            <h5>请选择品牌前缀:</h5>
+            <dl class="first-dl">
+                <dt class="btn" ng-click="vm.status=vm.status==1?0:1">A - G</dt>
+                <dd ng-switch-when="1">
+                    <div class="btn" ng-repeat="item in brandPreList|preFilter:'[a-g]'"
+                         ng-click="filter(item)">{{item.pre}}</div>
+                </dd>
+            </dl>
+            <dl>
+                <dt class="btn" ng-click="vm.status=vm.status==2?0:2">H - N</dt>
+                <dd ng-switch-when="2">
+                    <div class="btn" ng-repeat="item in brandPreList|preFilter:'[h-n]'"
+                         ng-click="filter(item)">{{item.pre}}</div>
+                </dd>
+            </dl>
+            <dl>
+                <dt class="btn" ng-click="vm.status=vm.status==3?0:3">O - T</dt>
+                <dd ng-switch-when="3">
+                    <div class="btn" ng-repeat="item in brandPreList|preFilter:'[o-t]'"
+                         ng-click="filter(item)">{{item.pre}}</div>
+                </dd>
+            </dl>
+            <dl>
+                <dt class="btn"  ng-click="vm.status=vm.status==4?0:4">U - Z</dt>
+                <dd ng-switch-when="4">
+                    <div class="btn" ng-repeat="item in brandPreList|preFilter:'[u-z]'"
+                         ng-click="filter(item)">{{item.pre}}</div>
+                </dd>
+            </dl>
+        </header>
+
+        <section>
+            <div class="brand-img-wrap" ng-repeat="item in brandList"
+                 ng-click="goSeries(item)">
+                <img ng-src="{{imgUrl+item.imgurl}}">
+            </div>
+        </section>
+    </ion-content>
+</ion-view>

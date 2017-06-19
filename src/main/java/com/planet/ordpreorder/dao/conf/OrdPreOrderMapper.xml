@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.ordpreorder.dao.OrdPreOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.ordpreorder.domain.OrdPreOrder" >
+    <id column="POID" property="poid" jdbcType="VARCHAR" />
+    <result column="RID" property="rid" jdbcType="VARCHAR" />
+    <result column="UID" property="uid" jdbcType="INTEGER" />
+    <result column="OID" property="oid" jdbcType="VARCHAR" />
+    <result column="QID" property="qid" jdbcType="VARCHAR" />
+    <result column="ProductName" property="productname" jdbcType="VARCHAR" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="Quo_Price" property="quoPrice" jdbcType="DECIMAL" />
+    <result column="Qty" property="qty" jdbcType="INTEGER" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdateID" property="updateid" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="SortName" property="sortname" jdbcType="VARCHAR" />
+    <result column="BrandName" property="brandname" jdbcType="VARCHAR" />
+    <result column="ModelName" property="modelname" jdbcType="VARCHAR" />
+    <result column="SeriesName" property="seriesname" jdbcType="VARCHAR" />
+    <result column="PType" property="ptype" jdbcType="INTEGER" />
+    <result column="DeliveryTime" property="deliverytime" jdbcType="VARCHAR" />
+    <result column="Stock" property="stock" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    POID, RID, UID, OID, QID, ProductName, Price, Quo_Price, Qty, Remark, UpdateDate, 
+    UpdateID, Status, SortName, BrandName, ModelName, SeriesName,DeliveryTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Ord_PreOrder
+    where POID = #{poid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByOid" resultMap="BaseResultMap" parameterType="com.planet.ordpreorder.domain.OrdPreOrder" >
+  select
+  <include refid="Base_Column_List" />
+  from Ord_PreOrder
+  where OID = #{oid,jdbcType=VARCHAR}
+</select>
+
+  <select id="selectSalesPreOrderByOid" resultMap="BaseResultMap" parameterType="com.planet.ordpreorder.domain.OrdPreOrder" >
+
+    select a.POID, a.RID, a.UID, a.OID, a.QID, a.ProductName, a.Price, a.Quo_Price, a.Qty, a.Remark, a.UpdateDate,
+    a.UpdateID, a.Status, a.SortName, a.BrandName, a.ModelName, a.SeriesName,a.DeliveryTime,c.PType,c.Stock
+    from Ord_PreOrder a left join Req_requirement b on a.rid=b.rid
+    left join pro_productsale c on b.psid=c.psid
+    where a.OID = #{oid,jdbcType=VARCHAR}
+  </select>
+
+
+
+
+
+
+
+  <select id="selectOrdPreOrderCount" resultMap="BaseResultMap" parameterType="com.planet.ordpreorder.domain.OrdPreOrder">
+  SELECT <include refid="Base_Column_List" />
+  FROM Ord_PreOrder a
+  WHERE a.RID='R160200010' AND a.`Status` NOT IN (0);
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Ord_PreOrder
+    where POID = #{poid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.planet.ordpreorder.domain.OrdPreOrder" >
+    insert into Ord_PreOrder (POID, RID, UID, 
+      OID, QID, ProductName, 
+      Price, Quo_Price, Qty, 
+      Remark, UpdateDate, UpdateID, 
+      Status, SortName, BrandName, 
+      ModelName, SeriesName,DeliveryTime)
+    values (#{poid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
+      #{oid,jdbcType=VARCHAR}, #{qid,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{quoPrice,jdbcType=DECIMAL}, #{qty,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{updateid,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER}, #{sortname,jdbcType=VARCHAR}, #{brandname,jdbcType=VARCHAR}, 
+      #{modelname,jdbcType=VARCHAR}, #{seriesname,jdbcType=VARCHAR}, #{deliverytime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.ordpreorder.domain.OrdPreOrder" >
+    insert into Ord_PreOrder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="poid != null" >
+        POID,
+      </if>
+      <if test="rid != null" >
+        RID,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="oid != null" >
+        OID,
+      </if>
+      <if test="qid != null" >
+        QID,
+      </if>
+      <if test="productname != null" >
+        ProductName,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="quoPrice != null" >
+        Quo_Price,
+      </if>
+      <if test="qty != null" >
+        Qty,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateid != null" >
+        UpdateID,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="sortname != null" >
+        SortName,
+      </if>
+      <if test="brandname != null" >
+        BrandName,
+      </if>
+      <if test="modelname != null" >
+        ModelName,
+      </if>
+      <if test="seriesname != null" >
+        SeriesName,
+      </if>
+      <if test="deliverytime != null" >
+        DeliveryTime,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="poid != null" >
+        #{poid,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="qid != null" >
+        #{qid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quoPrice != null" >
+        #{quoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateid != null" >
+        #{updateid,jdbcType=updateid},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sortname != null" >
+        #{sortname,jdbcType=VARCHAR},
+      </if>
+      <if test="brandname != null" >
+        #{brandname,jdbcType=VARCHAR},
+      </if>
+      <if test="modelname != null" >
+        #{modelname,jdbcType=VARCHAR},
+      </if>
+      <if test="seriesname != null" >
+        #{seriesname,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverytime != null" >
+        #{deliverytime,jdbcType=VARCHAR},
+      </if>
+
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.ordpreorder.domain.OrdPreOrder" >
+    update Ord_PreOrder
+    <set >
+      <if test="rid != null" >
+        RID = #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null" >
+        OID = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="qid != null" >
+        QID = #{qid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null" >
+        ProductName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quoPrice != null" >
+        Quo_Price = #{quoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="qty != null" >
+        Qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateid != null" >
+        UpdateID = #{updateid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sortname != null" >
+        SortName = #{sortname,jdbcType=VARCHAR},
+      </if>
+      <if test="brandname != null" >
+        BrandName = #{brandname,jdbcType=VARCHAR},
+      </if>
+      <if test="modelname != null" >
+        ModelName = #{modelname,jdbcType=VARCHAR},
+      </if>
+      <if test="seriesname != null" >
+        SeriesName = #{seriesname,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverytime != null" >
+        DeliveryTime = #{deliverytime,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where POID = #{poid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.ordpreorder.domain.OrdPreOrder" >
+    update Ord_PreOrder
+    set RID = #{rid,jdbcType=VARCHAR},
+      UID = #{uid,jdbcType=INTEGER},
+      OID = #{oid,jdbcType=VARCHAR},
+      QID = #{qid,jdbcType=VARCHAR},
+      ProductName = #{productname,jdbcType=VARCHAR},
+      Price = #{price,jdbcType=DECIMAL},
+      Quo_Price = #{quoPrice,jdbcType=DECIMAL},
+      Qty = #{qty,jdbcType=INTEGER},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdateID = #{updateid,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      SortName = #{sortname,jdbcType=VARCHAR},
+      BrandName = #{brandname,jdbcType=VARCHAR},
+      ModelName = #{modelname,jdbcType=VARCHAR},
+      SeriesName = #{seriesname,jdbcType=VARCHAR},
+      DeliveryTime = #{deliverytime,jdbcType=VARCHAR}
+    where POID = #{poid,jdbcType=VARCHAR}
+  </update>
+</mapper>

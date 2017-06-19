@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.sysfile.dao.SysFileMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.sysfile.domain.SysFile" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="FileID" property="fileid" jdbcType="INTEGER" />
+    <result column="FileUrl" property="fileurl" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FileID, FileUrl, CreateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_File
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByFileId" resultMap="BaseResultMap" parameterType="com.planet.sysfile.domain.SysFile" >
+    select
+    <include refid="Base_Column_List" />
+    from Sys_File
+    where FileID = #{fileid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Sys_File
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.sysfile.domain.SysFile" >
+    insert into Sys_File (ID, FileID, FileUrl, 
+      CreateTime)
+    values (#{id,jdbcType=INTEGER}, #{fileid,jdbcType=INTEGER}, #{fileurl,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.sysfile.domain.SysFile" >
+    insert into Sys_File
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fileid != null" >
+        FileID,
+      </if>
+      <if test="fileurl != null" >
+        FileUrl,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fileid != null" >
+        #{fileid,jdbcType=INTEGER},
+      </if>
+      <if test="fileurl != null" >
+        #{fileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.sysfile.domain.SysFile" >
+    update Sys_File
+    <set >
+      <if test="fileid != null" >
+        FileID = #{fileid,jdbcType=INTEGER},
+      </if>
+      <if test="fileurl != null" >
+        FileUrl = #{fileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.sysfile.domain.SysFile" >
+    update Sys_File
+    set FileID = #{fileid,jdbcType=INTEGER},
+      FileUrl = #{fileurl,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

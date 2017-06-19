@@ -1,0 +1,27 @@
+<ion-tabs class="tabs-icon-top tabs-color-active-positive" ng-class="{'tabs-item-hide':hideTab}">
+
+    <!-- 特价Tab -->
+    <ion-tab title="特价" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/sale"
+             on-deselect="clearHistory()">
+        <ion-nav-view name="tab-sale"></ion-nav-view>
+    </ion-tab>
+
+    <!-- 推荐Tab -->
+    <ion-tab title="推荐" icon-off="ion-ios-cart-outline" icon-on="ion-ios-cart" href="#/tab/recommend"
+             on-deselect="clearHistory()">
+        <ion-nav-view name="tab-recommend"></ion-nav-view>
+    </ion-tab>
+
+    <!-- 产品Tab -->
+    <ion-tab title="产品" href="#/tab/guide" icon-off="ion-ios-briefcase-outline" icon-on="ion-ios-briefcase"
+             on-deselect="clearHistory()">
+        <ion-nav-view name="tab-product"></ion-nav-view>
+    </ion-tab>
+
+
+    <!--个人中心Tab -->
+    <ion-tab title="我" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/me"
+             on-deselect="clearHistory()">
+        <ion-nav-view name="tab-me"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>

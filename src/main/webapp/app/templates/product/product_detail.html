@@ -1,0 +1,44 @@
+<ion-view view-title="" id="product-detail" hide-tab="true">
+    <ion-content>
+        <header>
+            <img ng-src="{{imgUrl+productDetail.imgurl}}">
+            <div class="p-info">
+                <p class="p-name">{{productDetail.productname}}</p>
+                <p class="p-price" ng-if="productDetail.ptype==1"><span class="c-red">{{productDetail.price|currency:'￥'}}</span><span class="in_stock">库存：{{productDetail.stock}}</span></p>
+            </div>
+        </header>
+        <section>
+            <!--<div class="num">-->
+                <!--<p class="num-info">数量: {{vm.num}}</p>-->
+                <!--<div class="input-groups">-->
+                    <!--<span class="span" ng-click="minus()">-</span>-->
+                    <!--<input type="number" ng-model="vm.num"/>-->
+                    <!--<span class="span" ng-click="add()">+</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="p-info">
+                <p class="title">商品详情</p>
+                <div class="row">【编<span class="em2"></span>号】{{productDetail.pid}}</div>
+                <div class="row">【品<span class="em2"></span>牌】{{productDetail.brandname}}</div>
+                <!--<div class="row" ng-if="productDetail.ptype==1">【型<span class="em2"></span>号】{{productDetail.modelname}}</div>-->
+                <div class="row">【上架时间】{{productDetail.saledate|date:'yyyy-MM-dd'}}</div>
+                <div class="row"  ng-if="productDetail.ptype==1">【价<span class="em2"></span>格】{{productDetail.price}}</div>
+                <!--<div class="row">-->
+                    <!--<div class="col-50">【库<span class="em2"></span>存】{{productDetail.stock}}</div>-->
+                <!--</div>-->
+                <div class="row">【产品类别】{{productDetail.sortname}}</div>
+                <div class="row">【产品系列】{{productDetail.seriesname}}</div>
+            </div>
+            <div class="p-desc" ng-if="productDetail.describemodel">
+                {{productDetail.describemodel}}
+            </div>
+            <div class="p-recommand" ng-if="productDetail.ptype==2&&productDetail.imgurl2!=null">
+                <img ng-src="{{imgUrl+productDetail.imgurl2}}">
+            </div>
+        </section>
+        <footer>
+            <button class="button button-large button-positive button-full" ng-click="createReq(productDetail)">提交需求
+            </button>
+        </footer>
+    </ion-content>
+</ion-view>

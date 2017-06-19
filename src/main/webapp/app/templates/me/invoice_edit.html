@@ -1,0 +1,50 @@
+<ion-view view-title="编辑开票信息" id="invoice-edit">
+    <ion-content>
+        <form name="invoiceEdit" novalidate>
+            <fieldset>
+                <label class="item item-input">
+                    <span class="input-label required ls5">开票抬头：</span>
+                    <input type="text" maxlength="120" ng-model="invoice.titlename" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label ls14">开户行<span class="colon-ls14">：</span></span>
+                    <input type="text" maxlength="100" ng-model="invoice.bank">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label required ls41">账号<span class="colon-ls41">：</span></span>
+                    <i></i>
+                    <input type="text" maxlength="120" ng-model="invoice.account" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label ls41">税号<span class="colon-ls41">：</span></span>
+                    <input type="text" maxlength="20" ng-model="invoice.tax">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label ls5">公司电话：</span>
+                    <!--<span class="span-colon">：</span>-->
+                    <input type="text" maxlength="20" ng-model="invoice.companytel">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label required ls14">签收人<span class="colon-ls14">：</span></span>
+                    <input type="text" maxlength="20" ng-model="invoice.receiver" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label  required">签收人电话<span class="in-colon">：</span></span>
+                    <!--<span class="span-colon">：</span>-->
+                    <input class="item_input_phone" type="text" required
+                           ng-keyup="receiverTelInputKeyUp()" ng-pattern="/^1[34578]\d{9}$/"
+                           ng-class="{'invalid':inputCheckStatus.receiverTel}"
+                           ng-model="invoice.receivertel">
+                </label>
+                <label class="item item-input item_input_address">
+                    <span class="input-label required ls41">地址<span class="colon-ls41">：</span></span>
+                    <textarea class="invoice_address" required ng-model="invoice.address"></textarea>
+                </label>
+            </fieldset>
+            <div class="foot-tips">注：带<span style="color: red;">*</span>号的为必填项</div>
+        </form>
+        <button class="button bar-position bar-full bar-large" ng-disabled="invoiceEdit.$invalid"
+                ng-click="confirm()">保存
+        </button>
+    </ion-content>
+</ion-view>

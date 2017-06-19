@@ -1,0 +1,14 @@
+<ion-view id="p-series">
+    <ion-content>
+        <header>
+            请选择产品系列
+        </header>
+        <section>
+            <div class="btn-sort"
+                 ng-repeat="item in productSeriesList"
+                 ng-click="goProductDemandForm(item)">
+                {{item.dictname}}
+            </div>
+        </section>
+    </ion-content>
+</ion-view>

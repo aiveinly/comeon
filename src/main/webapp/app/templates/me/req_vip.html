@@ -1,0 +1,64 @@
+<ion-view view-title="申请经纪人" id="req-vip">
+    <ion-content>
+        <form name="reqForm" novalidate>
+            <div class="row vip-groups text-center" ng-init="req.applytype=1">
+                <div class="col-50">
+                    <button ng-click="req.applytype=1" ng-class="{'active':req.applytype==1}">产品经纪人</button>
+                    <i class="ion-ios-help-outline"></i>
+                </div>
+                <div class="col-50">
+                    <button ng-click="req.applytype=2" ng-class="{'active':req.applytype==2}">服务工程师</button>
+                    <i class="ion-ios-help-outline"></i>
+                </div>
+            </div>
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label required">姓<i class="em2"></i>名:</span>
+                    <input type="text" ng-model="req.truename" required maxlength="20">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label required">电<i class="em2"></i>话:</span>
+                    <input type="text" ng-model="req.tel" required ng-keyup="phoneInputKeyUp()"
+                           ng-class="{'invalid':isPhoneInValid}">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label required">所属地区:</span>
+                    <input type="text" ng-model="req.area" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label required">从业年限:</span>
+                    <input type="text" ng-model="req.workdate"
+                           ng-class="{'invalid':isWorkDateInValid}"
+                           ng-keyup="workDateInputKeyUp()" required>
+                </label>
+                <label class="item item-input input-textarea">
+                    <span class="input-label required">熟悉品牌:</span>
+                    <textarea ng-model="vm.brand" required></textarea>
+                </label>
+                <label class="item item-input input-textarea">
+                    <span class="input-label required">熟悉产品:</span>
+                    <textarea ng-model="vm.product" required></textarea>
+                </label>
+            </div>
+            <div class="upload-warp">
+                <button class="button button-positive button-block btn-extra-file"
+                        ng-show="vm.file==null" ngf-select="" ng-model="vm.file">
+                    上传身份证
+                </button>
+                <div class="img-wrap" ng-show="vm.file!=null">
+                    <label class="item item-input">
+                        <span class="input-label">身<span class="em-dot-5"></span>份<span
+                                class="em-dot-5"></span>证:</span>
+                        <!--<span class="clear-data" ng-click="clearFile()">取消</span>-->
+                    </label>
+                    <img src="" ngf-src="vm.file" ngf-select="" ng-model="vm.file" alt="">
+                </div>
+            </div>
+            <div class="foot-tips">注：带<span style="color: red;">*</span>号的为必填项</div>
+            <button class="button button-positive button-full btn-commit"
+                    ng-disabled="!reqForm.$dirty || reqForm.$invalid"
+                    ng-click="commit()">提交
+            </button>
+        </form>
+    </ion-content>
+</ion-view>

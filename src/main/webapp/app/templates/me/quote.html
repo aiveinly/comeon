@@ -1,0 +1,97 @@
+<ion-view id="quote" view-title="报价单详情">
+    <ion-content>
+        <header>
+            <div class="h-left">
+                <p>订单编号:{{quoteDetail.oid}}</p>
+                <p>创建时间:{{quoteDetail.createdateString}}</p>
+            </div>
+            <div class="h-right">
+                {{quoteDetail.status|quoteStatusFilter}}
+            </div>
+        </header>
+        <section>
+            <h4 class="item-icon-right" ng-click="chooseInvoice()">
+                <span>
+                    <span>抬头</span>
+                    <span class="title" ng-if="invoice.titlename">{{invoice.titlename}}</span>
+                    <span class="title non-title" ng-if="!invoice.titlename">选择发票抬头</span>
+                </span>
+                <br/>
+                <span>
+                 <span>地址</span>
+                <span class="title">{{invoice.address}}</span>
+                </span>
+                <i class="icon ion-ios-arrow-forward"></i>
+            </h4>
+            <div class="p-order">
+                <form novalidate>
+                    <h5>产品详情</h5>
+                    <ul class="pre-order-list">
+                        <li class="p-item" ng-repeat="item in preOrderList">
+                            <div class="row">{{item.poid}} {{item.productname}}</div>
+                            <div class="row">
+                                <div class="col-50">产品单价:{{item.price|currency:'￥':2}}</div>
+                                <label class="col-50"  ng-if="quoteDetail.status<1&&user.vip==1">
+                                    <span class="label-text color-blue">开票单价:</span>
+                                    <span class="label-input"  ng-init="item.pricePlaceholder='0000'">
+                                    <input type="text"
+                                           ng-init="item._isPriceInValid=false"
+                                           ng-class="{'invalid':item._isPriceInValid}"
+                                           ng-focus="item.pricePlaceholder=''"
+                                           ng-keyup="priceKeyUp(item)"
+                                           placeholder="{{item.pricePlaceholder}}" ng-model="item.quoPrice"
+                                           ng-blur="item.pricePlaceholder=item.pricePlaceholder||'0000'">
+                                </span>
+                                </label>
+                                <label class="col-50"  ng-if="quoteDetail.status>0&&user.vip==1">
+                                    <span class="label-text color-blue">开票单价:</span>
+                                    <span>{{item.quoPrice|currency:'￥':2}}</span>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-25">
+                                    数量：{{item.qty}}
+                                </div>
+                                <div class="col-25">
+                                    <span ng-if="item.ptype==1">库存：{{item.stock}}</span>
+                                </div>
+                                <label class="col-50" ng-if="quoteDetail.status<1">
+                                    <span class="label-text color-blue">订购数量:</span>
+                                <span class="label-input" ng-init="item.numPlaceholder='0000'">
+                                    <input  type="number" min="0"
+                                           ng-init="item._qtyInValid=false"
+                                           ng-class="{'invalid':item._qtyInValid}"
+                                           placeholder="{{item.numPlaceholder}}"
+                                            ng-keyup="qtyKeyUp(item)"
+                                           ng-model="item.newQty" ng-focus="item.numPlaceholder=''"
+                                           ng-blur="item.numPlaceholder=item.numPlaceholder||'0000'">
+                                </span>
+                                </label>
+                            </div>
+                            <div class="row p-foot">
+                                <div class="col-50">
+                                    <span ng-if="item.deliverytime">产品货期：{{item.deliverytime}}</span>
+                                </div>
+                                <label class="col-50 text-right" ng-if="quoteDetail.status<1">
+                                    <span class="label-text">勾选确认</span>
+                                    <input type="checkbox" ng-model="item.isConfirm">
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="feedback">
+                <h5>反馈意见:</h5>
+                <textarea placeholder="意见或需求:" ng-model="vm.jianyi"></textarea>
+            </div>
+
+        </section>
+        <footer>
+            <!-- <button class="button" ng-click="contactUs()">联系客服</button> -->
+            <a class="button" href="tel:{{serviceTel}}">联系客服</a>
+            <button class="button" ng-disabled="quoteDetail.status>0" ng-click="confirm()">报价确认</button>
+
+        </footer>
+    </ion-content>
+</ion-view>

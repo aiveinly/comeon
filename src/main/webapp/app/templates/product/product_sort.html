@@ -1,0 +1,22 @@
+<ion-view view-title="品类" id="p-sort">
+    <ion-content>
+        <!-- 下拉刷新 -->
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
+
+        <!--<header>请选择产品品类</header>-->
+        <section>
+            <div class="btn-sort" ng-repeat="item in productSortList"
+                 ng-click="goBrandPre(item)">
+                <!--<img ng-src="{{imgUrl+item.imgurl}}">-->
+                <img ng-src="{{imgUrl+item.imgurl}}"/>
+                {{item.dictname}}
+            </div>
+        </section>
+
+        <!-- 上拉加载更多 -->
+        <ion-infinite-scroll ng-if="moreDataCanBeLoaded()"
+                             icon="ion-loading-c"
+                             on-infinite="loadMore()" distance="1%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

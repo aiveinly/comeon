@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.prodict.dao.ProDictMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.prodict.domain.ProDict" >
+    <id column="DID" property="did" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="DictName" property="dictname" jdbcType="VARCHAR" />
+    <result column="Pre" property="pre" jdbcType="VARCHAR" />
+    <result column="ParentID" property="parentid" jdbcType="INTEGER"/>
+    <result column="ImgUrl" property="imgurl" jdbcType="VARCHAR"/>
+    <result column="Sn" property="sn" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="selectProallVoMap" type="com.planet.vo.selectProallVo" >
+    <id column="DID" property="did" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="ParentID" property="parentid" jdbcType="INTEGER"/>
+    <result column="DictName" property="dictname" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ProDictInfo" type="com.planet.vo.ProDictVo">
+    <id column="DID" property="did" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="DictName" property="dictname" jdbcType="VARCHAR" />
+    <result column="Pre" property="pre" jdbcType="VARCHAR" />
+    <result column="ParentID" property="parentid" jdbcType="INTEGER"/>
+    <result column="ImgUrl" property="imgurl" jdbcType="VARCHAR"/>
+    <result column="Sn" property="sn" jdbcType="INTEGER" />
+    <result column="bindinfo" property="bindinfo" jdbcType="VARCHAR"/>
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    DID, Type, DictName, Pre, Sn ,ParentID , ImgUrl
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from Pro_Dict
+    where DID = #{did,jdbcType=INTEGER} order by sn ASC
+  </select>
+
+
+  <select id="selectIsUse" parameterType="java.util.Map" statementType="CALLABLE"  resultType="String" >
+    { CALL `proc_dictDeleteByDid`(#{did,jdbcType=VARCHAR,mode=IN},#{ret_out,jdbcType=VARCHAR,mode=OUT})}
+  </select>
+
+  <select id="selectCategory" resultType="int" parameterType="com.planet.prodict.domain.ProDict">
+    select count(*) from Pro_Dict a where a.DictName=#{dictname, jdbcType=VARCHAR} and  a.ParentID=#{parentid, jdbcType=INTEGER}  order by sn ASC
+  </select>
+
+<!--<select id="listPageProDict" resultMap="BaseResultMap" parameterType="com.planet.prodict.domain.ProDict">-->
+    <!--SELECT-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from Pro_Dict WHERE 1=1-->
+    <!--<if test="type !=null">-->
+     <!--AND Type =#{type, jdbcType=INTEGER}-->
+    <!--</if>-->
+    <!--<if test="pre !=null">-->
+      <!--AND Pre =#{pre, jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="dictname != null" >-->
+      <!--AND DictName LIKE CONCAT(CONCAT('%',#{dictname,jdbcType=VARCHAR}),'%')-->
+    <!--</if>-->
+  <!--</select>-->
+
+  <select id="listPageProDict" resultMap="ProDictInfo" parameterType="com.planet.vo.ProDictVo">
+   SELECT abc.did,abc.type,abc.pre,abc.imgurl,abc.sn,abc.parentid,abc.dictname,
+(CASE abc.type WHEN 1 THEN abc.DictName WHEN 2 THEN CONCAT(abc.brand,'-',abc.DictName) WHEN 3 THEN CONCAT(abc.sort,'-',abc.brand,'-',abc.DictName) END) AS bindinfo
+FROM
+(
+SELECT a.*, (
+SELECT aa.DictName
+FROM pro_dict aa
+WHERE aa.DID= a.ParentID) AS brand,
+
+(
+SELECT cc.DictName
+FROM pro_dict cc
+WHERE cc.DID =(
+SELECT bb.ParentID
+FROM pro_dict bb
+WHERE bb.DID= a.ParentID)) AS sort
+FROM pro_dict a
+WHERE 1=1
+
+    <if test="type !=null">
+    AND a.`Type` =#{type, jdbcType=INTEGER}
+    </if>
+    <if test="parentId !=null">
+      AND a.`parentid` =#{parentId, jdbcType=INTEGER}
+    </if>
+    <if test="pre !=null">
+    AND a.Pre =#{pre, jdbcType=VARCHAR}
+    </if>
+    <if test="dictname != null" >
+    AND DictName LIKE CONCAT(CONCAT('%',#{dictname,jdbcType=VARCHAR}),'%')
+    </if>
+) abc order by  abc.sn ASC ,did DESC
+  </select>
+
+  <select id="selectPreInfo" resultMap="BaseResultMap" parameterType="com.planet.prodict.domain.ProDict">
+  select <include refid="Base_Column_List" />  from Pro_Dict a where a.`Type` =#{type,jdbcType=INTEGER} group by a.Pre
+  </select>
+
+  <select id="selectProall" resultMap="selectProallVoMap" parameterType="java.util.Map">
+    select a.DID,concat(a.Pre,'-',a.DictName) as DictName,a.ParentID from Pro_Dict a where a.`Type`=#{type,jdbcType=INTEGER}
+    <if test="parentid != null">
+      AND a.ParentID = #{parentid,jdbcType=INTEGER}
+    </if>
+    group by a.DictName
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Pro_Dict
+    where DID = #{did,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.prodict.domain.ProDict" >
+    insert into Pro_Dict (DID, Type, DictName, ParentID,ImgUrl,
+      Pre, Sn)
+    values (#{did,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{dictname,jdbcType=VARCHAR}, 
+      #{pre,jdbcType=VARCHAR},#{parentid,jdbcType=INTEGER},#{imgurl,jdbcType=VARCHAR}, #{sn,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.prodict.domain.ProDict" >
+    insert into Pro_Dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        DID,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="dictname != null" >
+        DictName,
+      </if>
+      <if test="pre != null" >
+        Pre,
+      </if>
+      <if test="parentid != null">
+        ParentID,
+      </if>
+      <if test="imgurl != null">
+        ImgUrl,
+      </if>
+      <if test="sn != null" >
+        Sn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        #{did,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="dictname != null" >
+        #{dictname,jdbcType=VARCHAR},
+      </if>
+      <if test="pre != null" >
+        #{pre,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.prodict.domain.ProDict" >
+    update Pro_Dict
+    <set >
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="dictname != null" >
+        DictName = #{dictname,jdbcType=VARCHAR},
+      </if>
+      <if test="pre != null" >
+        Pre = #{pre,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        ParentID = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        ImgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null" >
+        Sn = #{sn,jdbcType=INTEGER},
+      </if>
+    </set>
+    where DID = #{did,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.prodict.domain.ProDict" >
+    update Pro_Dict
+    set Type = #{type,jdbcType=INTEGER},
+      DictName = #{dictname,jdbcType=VARCHAR},
+      Pre = #{pre,jdbcType=VARCHAR},
+      ParentID = #{parentid,jdbcType=INTEGER},
+      ImgUrl = #{imgurl,jdbcType=VARCHAR},
+      Sn = #{sn,jdbcType=INTEGER}
+    where DID = #{did,jdbcType=INTEGER}
+  </update>
+</mapper>

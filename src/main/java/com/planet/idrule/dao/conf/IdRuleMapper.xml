@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.idrule.dao.IdRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.idrule.domain.IdRule" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="num_name" property="numName" jdbcType="VARCHAR" />
+    <result column="num_count" property="numCount" jdbcType="INTEGER" />
+    <result column="cur_num" property="curNum" jdbcType="INTEGER" />
+    <result column="last_num" property="lastNum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, num_name, num_count, cur_num, last_num
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_id_rule
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByNumName" resultMap="BaseResultMap" parameterType="String">
+    select a.ID,a.num_name,a.num_count,a.cur_num,a.last_num  from sys_id_rule a where 1=1
+    <if test="numName != null">
+     and a.num_name= #{numName,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_id_rule
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.idrule.domain.IdRule" >
+    insert into sys_id_rule (ID, num_name, num_count, 
+      cur_num, last_num)
+    values (#{id,jdbcType=INTEGER}, #{numName,jdbcType=VARCHAR}, #{numCount,jdbcType=INTEGER}, 
+      #{curNum,jdbcType=INTEGER}, #{lastNum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.idrule.domain.IdRule" >
+    insert into sys_id_rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="numName != null" >
+        num_name,
+      </if>
+      <if test="numCount != null" >
+        num_count,
+      </if>
+      <if test="curNum != null" >
+        cur_num,
+      </if>
+      <if test="lastNum != null" >
+        last_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="numName != null" >
+        #{numName,jdbcType=VARCHAR},
+      </if>
+      <if test="numCount != null" >
+        #{numCount,jdbcType=INTEGER},
+      </if>
+      <if test="curNum != null" >
+        #{curNum,jdbcType=INTEGER},
+      </if>
+      <if test="lastNum != null" >
+        #{lastNum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.idrule.domain.IdRule" >
+    update sys_id_rule
+    <set >
+      <if test="numName != null" >
+        num_name = #{numName,jdbcType=VARCHAR},
+      </if>
+      <if test="numCount != null" >
+        num_count = #{numCount,jdbcType=INTEGER},
+      </if>
+      <if test="curNum != null" >
+        cur_num = #{curNum,jdbcType=INTEGER},
+      </if>
+      <if test="lastNum != null" >
+        last_num = #{lastNum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.idrule.domain.IdRule" >
+    update sys_id_rule
+    set num_name = #{numName,jdbcType=VARCHAR},
+      num_count = #{numCount,jdbcType=INTEGER},
+      cur_num = #{curNum,jdbcType=INTEGER},
+      last_num = #{lastNum,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

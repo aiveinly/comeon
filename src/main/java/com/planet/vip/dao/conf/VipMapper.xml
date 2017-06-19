@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.vip.dao.VipMapper">
+    <resultMap id="BaseResultMap" type="com.planet.vip.domain.Vip">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="UID" property="uid" jdbcType="INTEGER"/>
+        <result column="Username" property="username" jdbcType="VARCHAR"/>
+        <result column="Content" property="content" jdbcType="VARCHAR"/>
+        <result column="FileUrl" property="fileurl" jdbcType="VARCHAR"/>
+        <result column="Status" property="status" jdbcType="INTEGER"/>
+        <result column="AprovalID" property="aprovalid" jdbcType="INTEGER"/>
+        <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP"/>
+        <result column="TrueName" property="truename" jdbcType="VARCHAR"/>
+        <result column="Tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="KnowBrand" property="knowbrand" jdbcType="VARCHAR"/>
+        <result column="Area" property="area" jdbcType="VARCHAR"/>
+        <result column="WorkDate" property="workdate" jdbcType="INTEGER"/>
+        <result column="ApplyType" property="applytype" jdbcType="INTEGER"/>
+        <result column="File1" property="file1" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, UID, Username, Content, FileUrl, Status, AprovalID, UpdateDate, TrueName, Tel, 
+    KnowBrand, Area, WorkDate, ApplyType,File1
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_vipapply
+        where ID = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_vipapply
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.planet.vip.domain.Vip">
+    insert into sys_vipapply (ID, UID, Username, 
+      Content, FileUrl, Status, 
+      AprovalID, UpdateDate, TrueName, 
+      Tel, KnowBrand, Area, 
+      WorkDate, ApplyType)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{fileurl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{aprovalid,jdbcType=INTEGER}, #{updatedate,jdbcType=TIMESTAMP}, #{truename,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{knowbrand,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{workdate,jdbcType=INTEGER}, #{applytype,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.planet.vip.domain.Vip">
+        insert into sys_vipapply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="uid != null">
+                UID,
+            </if>
+            <if test="username != null">
+                Username,
+            </if>
+            <if test="content != null">
+                Content,
+            </if>
+            <if test="fileurl != null">
+                FileUrl,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="aprovalid != null">
+                AprovalID,
+            </if>
+            <if test="updatedate != null">
+                UpdateDate,
+            </if>
+            <if test="truename != null">
+                TrueName,
+            </if>
+            <if test="tel != null">
+                Tel,
+            </if>
+            <if test="knowbrand != null">
+                KnowBrand,
+            </if>
+            <if test="area != null">
+                Area,
+            </if>
+            <if test="workdate != null">
+                WorkDate,
+            </if>
+            <if test="applytype != null">
+                ApplyType,
+            </if>
+            <if test="file1 != null">
+                File1,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null">
+                #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="fileurl != null">
+                #{fileurl,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="aprovalid != null">
+                #{aprovalid,jdbcType=INTEGER},
+            </if>
+            <if test="updatedate != null">
+                #{updatedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="truename != null">
+                #{truename,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="knowbrand != null">
+                #{knowbrand,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="workdate != null">
+                #{workdate,jdbcType=INTEGER},
+            </if>
+            <if test="applytype != null">
+                #{applytype,jdbcType=INTEGER},
+            </if>
+            <if test="file1 != null">
+                #{file1,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.planet.vip.domain.Vip">
+        update sys_vipapply
+        <set>
+            <if test="uid != null">
+                UID = #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                Username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                Content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="fileurl != null">
+                FileUrl = #{fileurl,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="aprovalid != null">
+                AprovalID = #{aprovalid,jdbcType=INTEGER},
+            </if>
+            <if test="updatedate != null">
+                UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="truename != null">
+                TrueName = #{truename,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                Tel = #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="knowbrand != null">
+                KnowBrand = #{knowbrand,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                Area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="workdate != null">
+                WorkDate = #{workdate,jdbcType=INTEGER},
+            </if>
+            <if test="applytype != null">
+                ApplyType = #{applytype,jdbcType=INTEGER},
+            </if>
+            <if test="file1 != null">
+                File1 = #{file1,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.planet.vip.domain.Vip">
+    update sys_vipapply
+    set UID = #{uid,jdbcType=INTEGER},
+      Username = #{username,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=VARCHAR},
+      FileUrl = #{fileurl,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=INTEGER},
+      AprovalID = #{aprovalid,jdbcType=INTEGER},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      TrueName = #{truename,jdbcType=VARCHAR},
+      Tel = #{tel,jdbcType=VARCHAR},
+      KnowBrand = #{knowbrand,jdbcType=VARCHAR},
+      Area = #{area,jdbcType=VARCHAR},
+      WorkDate = #{workdate,jdbcType=INTEGER},
+      ApplyType = #{applytype,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <select id="listPageSelect" resultMap="BaseResultMap" parameterType="com.planet.vip.domain.Vip">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM Sys_VIPApply a
+        WHERE 1=1 ORDER BY a.UpdateDate DESC
+    </select>
+</mapper>

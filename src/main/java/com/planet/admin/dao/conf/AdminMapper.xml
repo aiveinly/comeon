@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.admin.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.admin.domain.Admin" >
+    <id column="SUID" property="suid" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="PassWord" property="password" jdbcType="VARCHAR" />
+    <result column="Role" property="role" jdbcType="VARCHAR" />
+    <result column="OpenID" property="openid" jdbcType="VARCHAR" />
+    <result column="Tel" property="tel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SUID, UserName, Name, PassWord, Role, OpenID, Tel
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Admin
+    where SUID = #{suid,jdbcType=INTEGER}
+  </select>
+  <select id="listPageSelect" resultMap="BaseResultMap" parameterType="com.planet.admin.domain.Admin">
+    select
+    <include refid="Base_Column_List" />
+    from Sys_Admin a
+    where 1=1
+    <if test="username !=null">
+      AND UserName LIKE CONCAT(CONCAT('%',#{username,jdbcType=VARCHAR}),'%')
+    </if>
+  </select>
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="com.planet.admin.domain.Admin">
+    select
+    <include refid="Base_Column_List" />
+    from Sys_Admin a
+    where  UserName = #{username,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Sys_Admin
+    where SUID = #{suid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.admin.domain.Admin" >
+    insert into Sys_Admin (SUID, UserName, Name, 
+      PassWord, Role, OpenID, 
+      Tel)
+    values (#{suid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.admin.domain.Admin" >
+    insert into Sys_Admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="suid != null" >
+        SUID,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="password != null" >
+        PassWord,
+      </if>
+      <if test="role != null" >
+        Role,
+      </if>
+      <if test="openid != null" >
+        OpenID,
+      </if>
+      <if test="tel != null" >
+        Tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="suid != null" >
+        #{suid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.admin.domain.Admin" >
+    update Sys_Admin
+    <set >
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PassWord = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        Role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        OpenID = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        Tel = #{tel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SUID = #{suid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.admin.domain.Admin" >
+    update Sys_Admin
+    set UserName = #{username,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      PassWord = #{password,jdbcType=VARCHAR},
+      Role = #{role,jdbcType=VARCHAR},
+      OpenID = #{openid,jdbcType=VARCHAR},
+      Tel = #{tel,jdbcType=VARCHAR}
+    where SUID = #{suid,jdbcType=INTEGER}
+  </update>
+</mapper>

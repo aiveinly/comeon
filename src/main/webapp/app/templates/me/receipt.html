@@ -1,0 +1,32 @@
+<ion-view view-title="发票中心" id="receipt" >
+    <ion-content class="bj" >
+        <div class="jc"></div>
+<div class="center"ng-repeat="list in fapiao">
+    <div style="text-align: center;font-size: 1.7em;">
+        深圳腾信科技有限公司
+    </div>
+    <div style="margin-top: 7%;font-size: 12px;">
+    <div class="kaihu">开户行</div>
+    <div>{{list.bank}}</div></div>
+    <div style="margin-top: 7%;font-size: 12px;">
+        <div class="kaihu">账号</div>
+        <div>{{list.account}}</div></div>
+    <div style="margin-top: 7%;font-size: 12px;">
+        <div class="kaihu">税号</div>
+        <div>{{list.tax}}</div></div>
+    <div style="margin-top: 7%;font-size: 12px;">
+    <div class="kaihu">公司电话</div>
+    <div>{{list.companytel}}</div></div>
+    <div style="margin-top: 7%;font-size: 12px;">
+        <div class="kaihu">接收人</div>
+        <div>{{list.receiver}}</div></div>
+    <div style="margin-top: 7%;font-size: 12px;">
+    <div class="kaihu">接收人电话</div>
+    <div>{{list.receivertel}}</div></div>
+    <div style="margin-top: 7%;font-size: 12px;padding-bottom: 10%;">
+        <div class="kaihu">地址</div>
+        <div>{{list.address}}</div></div>
+</div>
+
+    </ion-content>
+</ion-view>

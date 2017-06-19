@@ -1,0 +1,25 @@
+<ion-view view-title="开票信息列表" id="invoice-list">
+    <ion-content>
+        <ion-list>
+            <div ng-if="invoiceList.length>0">
+                <ion-item class="item" ng-repeat="invoice in invoiceList" ng-click="onClick(invoice)">
+                    <!--<span>{{invoice.titlename}}</span>-->
+                    <span>{{invoice.titlename}}</span>
+                    <i class="ion-edit i-edit" ng-click="editInvoice(invoice)"></i>
+                    <i class="ion-trash-a i-delete" ng-click="deleteInvoice(invoice)"></i>
+                </ion-item>
+
+                <!--<ion-item class="item" ng-repeat="invoice in invoiceList" ng-click="onClick(invoice)">-->
+                    <!--&lt;!&ndash;<span>{{invoice.titlename}}</span>&ndash;&gt;-->
+                    <!--<span>上海易推信息科技有限公司</span>-->
+                    <!--<i class="ion-edit-outline i-edit" ng-click="editInvoice(invoice)"></i>-->
+                    <!--<i class="ion-ios-trash-outline i-delete" ng-click="deleteInvoice(invoice)"></i>-->
+                <!--</ion-item>-->
+            </div>
+
+            <ion-item class="item-create" ng-click="createInvoice()">
+                <button class="button bar-full bar-positive">新增开票信息</button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

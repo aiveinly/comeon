@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.message.dao.MessageBatchMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.message.domain.MessageBatch" >
+    <id column="MBID" property="mbid" jdbcType="INTEGER" />
+    <result column="Message" property="message" jdbcType="VARCHAR" />
+    <result column="SendDate" property="senddate" jdbcType="TIMESTAMP" />
+    <result column="MType" property="mtype" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="MessageMap" type="com.planet.vo.MessageVo">
+    <id column="MBID" property="mbid" jdbcType="INTEGER" />
+    <result column="Message" property="message" jdbcType="VARCHAR" />
+    <result column="SendDate" property="senddate" jdbcType="TIMESTAMP" />
+    <result column="MType" property="mtype" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="MSGID" property="msgid" jdbcType="INTEGER" />
+    <result column="Sender" property="sender" jdbcType="INTEGER" />
+    <result column="Receiver" property="receiver" jdbcType="VARCHAR" />
+    <result column="isRead" property="isread" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="flag" property="flag" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MBID, Message, SendDate, MType, Status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_MessageBatch
+    where MBID = #{mbid,jdbcType=INTEGER}
+  </select>
+  <select id="selectMaxId" resultMap="BaseResultMap" parameterType="com.planet.message.domain.MessageBatch">
+    select
+    <include refid="Base_Column_List" />
+    from Sys_MessageBatch a WHERE a.MBID = (SELECT max(b.MBID) FROM Sys_MessageBatch b) AND a.`Status`=1
+  </select>
+  <select id="listPageSelectMessage" resultMap="MessageMap" parameterType="com.planet.vo.MessageVo">
+    SELECT *,count(Message) AS flag
+    FROM (
+    SELECT a.MBID,a.Message,a.SendDate,a.MType,b.MSGID,b.Sender,b.Receiver,b.isRead,(
+    SELECT name
+    FROM Sys_User d
+    WHERE d.UID =(b.Receiver)) AS name
+    FROM Sys_MessageBatch a
+    LEFT JOIN Sys_Message b ON a.MBID=b.MBID AND `Status` =1) g WHERE 1=1
+    <if test="startTime !='' and startTime!=null">
+    <![CDATA[and SendDate >= str_to_date(#{startTime},'%Y-%m-%d %H:%i:%s')]]>
+    </if>
+    <if test="endTime !='' and endTime!=null">
+      <![CDATA[and SendDate <= str_to_date(#{endTime},'%Y-%m-%d %H:%i:%s')]]>
+    </if>
+    <if test="name !='' and name !=null">
+      AND name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="receiver!='' and receiver!=null">
+      AND Receiver = {receiver,jdbcType=VARCHAR}
+    </if>
+    GROUP BY MBID
+
+  </select>
+  <select id="listPageSelectForUser" resultMap="MessageMap" parameterType="com.planet.vo.MessageVo">
+    SELECT a.MBID,a.Message,a.SendDate,a.MType,a.`Status`,b.MSGID,b.Sender,b.isRead
+    FROM Sys_MessageBatch a
+    LEFT JOIN Sys_Message b ON a.MBID=b.MBID
+    WHERE b.Receiver = #{receiver,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Sys_MessageBatch
+    where MBID = #{mbid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.message.domain.MessageBatch" >
+    insert into Sys_MessageBatch (MBID, Message, SendDate, 
+      MType, Status)
+    values (#{mbid,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{senddate,jdbcType=TIMESTAMP}, 
+      #{mtype,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.message.domain.MessageBatch" >
+    insert into Sys_MessageBatch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mbid != null" >
+        MBID,
+      </if>
+      <if test="message != null" >
+        Message,
+      </if>
+      <if test="senddate != null" >
+        SendDate,
+      </if>
+      <if test="mtype != null" >
+        MType,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mbid != null" >
+        #{mbid,jdbcType=INTEGER},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="senddate != null" >
+        #{senddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtype != null" >
+        #{mtype,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.message.domain.MessageBatch" >
+    update Sys_MessageBatch
+    <set >
+      <if test="message != null" >
+        Message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="senddate != null" >
+        SendDate = #{senddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtype != null" >
+        MType = #{mtype,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where MBID = #{mbid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.message.domain.MessageBatch" >
+    update Sys_MessageBatch
+    set Message = #{message,jdbcType=VARCHAR},
+      SendDate = #{senddate,jdbcType=TIMESTAMP},
+      MType = #{mtype,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER}
+    where MBID = #{mbid,jdbcType=INTEGER}
+  </update>
+</mapper>

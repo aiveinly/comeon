@@ -1,0 +1,68 @@
+<ion-view view-title="个人中心" id="me">
+    <ion-content>
+        <header>
+            <img ng-src="img/iconfont-user-head.svg">
+            <span class="vip" ng-if="user.vip==1&&user.isEngineer==1">工程师</span>
+            <span class="vip" ng-if="user.vip==1&&user.isEngineer!=1">经纪人</span>
+            <p class="code">邀请码:{{user.referralcode}}</p>
+            <div class="user-info">
+                <p>{{user.name}}</p>
+                <p>{{user.username}}</p>
+                <p class="me_integral">积分：{{user.point}}</p>
+            </div>
+        </header>
+        <section>
+            <ion-list>
+                <ion-item ui-sref="tab.order-list" class="my_order_item">
+                    <img ng-src="img/icon/order.png">
+                    我的订单
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+                <ion-item href="#/tab/invoice-list/me">
+                    <img ng-src="img/icon/kaipiao.png">
+                    开票信息
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+                <ion-item ui-sref="tab.message" class="message_item">
+                    <img ng-src="img/icon/xiaoxi.png">
+                    消息中心
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+                <!--<ion-item class="item-icon-right">-->
+                <!--我的积分-->
+                <!--<i class="icon ion-ios-arrow-forward"></i>-->
+                <!--</ion-item>-->
+                <ion-item ui-sref="tab.revisepwd">
+                    <img ng-src="img/icon/jianyi.png">
+                    修改密码
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+                <ion-item ui-sref="tab.suggestion">
+                    <img ng-src="img/icon/reset-pwd.jpg">
+                    联系坤玛
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+
+                <ion-item ui-sref="tab.req-vip" ng-if="!(user.vip==1&&user.isEngineer!=1)">
+                    <img ng-src="img/icon/shenqing.png">
+                    申请经纪人
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+                <ion-item ui-sref="tab.about-us" class="about_us_item">
+                    <img ng-src="img/icon/guanyu.png">
+                    关于我们
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+                <ion-item ui-sref="tab.bank-info" class="bank-info">
+                    <img ng-src="img/icon/card.svg">
+                    公司账户
+                    <i class="icon ion-ios-arrow-forward icon_left"></i>
+                </ion-item>
+
+                <ion-item class="mt20">
+                    <button class="me_button" ng-click="goLogin()">退出登录</button>
+                </ion-item>
+            </ion-list>
+        </section>
+    </ion-content>
+</ion-view>

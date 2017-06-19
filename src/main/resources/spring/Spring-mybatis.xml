@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:/db/jdbc.properties</value>
+        </property>
+    </bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${username}" />
+        <property name="password" value="${password}" />
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="${initialSize}"></property>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="${maxActive}"></property>
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="${maxIdle}"></property>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${minIdle}"></property>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="${maxWait}"></property>
+        <!-- 连接被泄露时是否打印 -->
+        <property name="logAbandoned" value="true" />
+        <!--removeAbandoned: 是否自动回收超时连接 -->
+        <property name="removeAbandoned" value="true" />
+        <!--removeAbandonedTimeout: 超时时间(以秒数为单位) -->
+        <property name="removeAbandonedTimeout" value="180" />
+        <!-- 取出连接时进行有效验证 -->
+        <!-- <property name="testOnBorrow" value="true" /> -->
+        <!-- <property name="validationQuery" value="SELECT 1" /> -->
+    </bean>
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:com/planet/test/dao/conf/*.xml</value>
+                <value>classpath*:com/planet/user/dao/conf/UserAgentMapper.xml</value>
+                <value>classpath*:com/planet/reqrequirement/dao/conf/ReqRequirementMapper.xml</value>
+                <value>classpath*:com/planet/proproduct/dao/conf/ProProductMapper.xml</value>
+                <value>classpath*:com/planet/prodict/dao/conf/ProDictMapper.xml</value>
+                <value>classpath*:com/planet/sysfile/dao/conf/SysFileMapper.xml</value>
+                <value>classpath*:com/planet/idrule/dao/conf/IdRuleMapper.xml</value>
+                <value>classpath*:com/planet/proproductsale/dao/conf/ProProductSaleMapper.xml</value>
+                <value>classpath*:com/planet/ordpreorder/dao/conf/OrdPreOrderMapper.xml</value>
+                <value>classpath*:com/planet/ordorder/dao/conf/OrdOrderMapper.xml</value>
+                <value>classpath*:com/planet/quoquotation/dao/conf/QuoQuotationMapper.xml</value>
+                <value>classpath*:com/planet/log/dao/conf/LogMapper.xml</value>
+                <value>classpath*:com/planet/suggest/dao/conf/SuggestMapper.xml</value>
+                <value>classpath*:com/planet/vip/dao/conf/VipMapper.xml</value>
+                <value>classpath*:com/planet/admin/dao/conf/AdminMapper.xml</value>
+                <value>classpath*:com/planet/advertising/dao/conf/AdvertisingMapper.xml</value>
+                <value>classpath*:com/planet/config/dao/conf/ConfigMapper.xml</value>
+                <value>classpath*:com/planet/invoice/dao/conf/InvoiceMapper.xml</value>
+                <value>classpath*:com/planet/message/dao/conf/MessageBatchMapper.xml</value>
+                <value>classpath*:com/planet/message/dao/conf/MessageMapper.xml</value>
+                <value>classpath*:com/planet/point/dao/conf/*.xml</value>
+            </list>
+        </property>
+
+        <!--配置自定义插件 -->
+        <property name="plugins">
+            <list>
+                <!-- 配置分页插件 -->
+                <bean class="com.planet.common.mybatis.plugins.page.PageInterceptor">
+                    <!--数据库连接方式 -->
+                    <property name="dialect" value="mysql" />
+                    <!--用正则表达式来匹配需要拦截的ID，对应的也就是 mapper接口的方法名 -->
+                    <property name="pageSqlId" value=".*listPage.*" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.planet" />
+        <property name="markerInterface" value="com.planet.common.mybatis.MybatisMapper"/>
+    </bean>
+</beans>

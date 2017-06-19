@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.planet.log.dao.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.planet.log.domain.Log" >
+    <id column="LOGID" property="logid" jdbcType="INTEGER" />
+    <result column="UID" property="uid" jdbcType="INTEGER" />
+    <result column="Username" property="username" jdbcType="VARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="Module" property="module" jdbcType="VARCHAR" />
+    <result column="Opertion" property="opertion" jdbcType="INTEGER" />
+    <result column="Discribe" property="discribe" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LOGID, UID, Username, CreateDate, Module, Opertion, Discribe
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Log
+    where LOGID = #{logid,jdbcType=INTEGER}
+  </select>
+  <select id="listPageselectByMap" resultMap="BaseResultMap" parameterType="com.planet.log.domain.Log">
+    select
+    <include refid="Base_Column_List" />
+    from Sys_Log a
+    where 1=1 order by a.CreateDate desc;
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Sys_Log
+    where LOGID = #{logid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.planet.log.domain.Log" >
+    insert into Sys_Log (LOGID, UID, Username, 
+      CreateDate, Module, Opertion, 
+      Discribe)
+    values (#{logid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{module,jdbcType=VARCHAR}, #{opertion,jdbcType=INTEGER}, 
+      #{discribe,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.planet.log.domain.Log" >
+    insert into Sys_Log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logid != null" >
+        LOGID,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="username != null" >
+        Username,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="module != null" >
+        Module,
+      </if>
+      <if test="opertion != null" >
+        Opertion,
+      </if>
+      <if test="discribe != null" >
+        Discribe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logid != null" >
+        #{logid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="module != null" >
+        #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="opertion != null" >
+        #{opertion,jdbcType=INTEGER},
+      </if>
+      <if test="discribe != null" >
+        #{discribe,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.planet.log.domain.Log" >
+    update Sys_Log
+    <set >
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        Username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="module != null" >
+        Module = #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="opertion != null" >
+        Opertion = #{opertion,jdbcType=INTEGER},
+      </if>
+      <if test="discribe != null" >
+        Discribe = #{discribe,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LOGID = #{logid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.planet.log.domain.Log" >
+    update Sys_Log
+    set UID = #{uid,jdbcType=INTEGER},
+      Username = #{username,jdbcType=VARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      Module = #{module,jdbcType=VARCHAR},
+      Opertion = #{opertion,jdbcType=INTEGER},
+      Discribe = #{discribe,jdbcType=VARCHAR}
+    where LOGID = #{logid,jdbcType=INTEGER}
+  </update>
+</mapper>

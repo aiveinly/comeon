@@ -1,0 +1,47 @@
+<ion-view id="order-detail" view-title="订单详情">
+    <ion-content>
+        <header>
+            <div class="h-left">
+                <p>订单编号:{{orderDetail.oid}}</p>
+                <p>创建时间:{{orderDetail.createdateString}}</p>
+            </div>
+            <div class="h-right">
+                {{orderDetail.status|orderStatusFilter}}
+            </div>
+        </header>
+        <section class="req" ng-if="requirement!=null">
+            <h4>询价单</h4>
+            <div class="req-content">
+                <p>产品名称：{{requirement.reqRequirement.productname}}</p>
+                <p>产品数量：{{requirement.reqRequirement.qty}}</p>
+                <p>产品品牌：{{requirement.reqRequirement.brandname}}</p>
+                <p>产品型号：{{requirement.reqRequirement.modelname}}</p>
+                <div>
+                    附件信息：
+                    <a ng-repeat="file in requirement.sysFiles" ng-href="{{imgUrl+file.fileurl}}">附件1</a>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h4>询价回复</h4>
+            <ul class="pre-order-list">
+                <li class="p-item" ng-repeat="item in preOrderList">
+                    <div class="p-id">
+                        <p>{{item.poid}} {{item.productname}}</p>
+                        <p>{{item.price|currency:'￥':2}}</p>
+                    </div>
+                    <!--<span class="p-name">{{item.productname}}</span>-->
+                    <div class="p-num">
+                        <P  ng-if="item.modelname!=''">型号：{{item.modelname}}</P>
+                        <P>数量：{{item.qty}}</P>
+                    </div>
+                    <!--<span class="p-price">{{item.price}}</span>-->
+                </li>
+            </ul>
+        </section>
+        <footer>
+            <button class="button" ng-click="goQuote(orderDetail.qid)" ng-disabled="orderDetail.status<2">看报价</button>
+            <a class="button" href="tel:{{serviceTel}}">联系客服</a>
+        </footer>
+    </ion-content>
+</ion-view>
